@@ -5,6 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 // import CardGroup from 'react-bootstrap/CardGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
 
 
 function HomePage() {
@@ -52,6 +53,10 @@ function HomePage() {
     return new Date(dt[0], dt[1] - 1, dt[2], dt[3] || 0, dt[4] || 0, dt[5] || 0, 0);
   }
 
+  const handleClick = (event) => {
+    console.log(event);
+  }
+
   return (
     <div>
       {/* <CardGroup> */}
@@ -59,8 +64,8 @@ function HomePage() {
         {events.map(event => {
           return (
             // <CardGroup>
-            <Col className="m-3">
-            <Card key={event.event_id} style={{ width: '18rem' }} bg="light">
+            <Col className="m-3" key={event.event_id}>
+            <Card style={{ width: '18rem' }} bg="light">
               <Card.Body>
                 <Card.Title className="fs-3">{event.event_name}</Card.Title>
                 <Card.Text>
@@ -95,6 +100,7 @@ function HomePage() {
                   <span className="mx-2">{event.event_type}</span>
                 </ListGroup.Item>
               </ListGroup>
+              <Button variant="outline-dark" onClick={() => handleClick(event)}>Add To Your Events</Button>
             </Card>
             </Col>
             // {/* </CardGroup> */}
