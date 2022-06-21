@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
+
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+// import CardGroup from 'react-bootstrap/CardGroup';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 
 function HomePage() {
   const [events, setEvents] = useState([]);
@@ -38,7 +43,7 @@ function HomePage() {
     let minutes = data.slice(timeStartIdx + 3, timeStartIdx + 5)
     //console.log(hours + ":" + minutes + " " + AmOrPm + " this is hours in 12hrs format")
     let ampmFormat = hoursInTwelve + ":" + minutes + " " + AMOrPM
-    return(ampmFormat)
+    return (ampmFormat)
   }
 
 
@@ -48,47 +53,55 @@ function HomePage() {
   }
 
   return (
-    <div className="m-3">
-      {events.map(event => {
-        return (
-          <Card key={event.event_id} className="m-3" style={{ width: '18rem' }}>
-            <Card.Body>
-              <Card.Title className="fs-3">{event.event_name}</Card.Title>
-              <Card.Text>
-                <span className="fw-bold">Location:</span>
-                <span className="mx-2">{event.event_location}</span>
-              </Card.Text>
-            </Card.Body>
-            <ListGroup className="list-group-flush">
+    <div>
+      {/* <CardGroup> */}
+      <Row xs={1} md={2} lg={4} className="justify-content-center">
+        {events.map(event => {
+          return (
+            // <CardGroup>
+            <Col className="m-3">
+            <Card key={event.event_id} style={{ width: '18rem' }} bg="light">
+              <Card.Body>
+                <Card.Title className="fs-3">{event.event_name}</Card.Title>
+                <Card.Text>
+                  <span className="fw-bold">Location:</span>
+                  <span className="mx-2">{event.event_location}</span>
+                </Card.Text>
+              </Card.Body>
+              <ListGroup className="list-group-flush">
 
-              <ListGroup.Item>
-                <span className="fw-bold">Borough:</span>
-                <span className="mx-2">{event.event_borough}</span>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <span className="fw-bold">Start Date:</span>
-                <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+                <ListGroup.Item>
+                  <span className="fw-bold">Borough:</span>
+                  <span className="mx-2">{event.event_borough}</span>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <span className="fw-bold">Start Date:</span>
+                  <span className="mx-2">{dateConverter(event.start_date_time)}</span>
 
-              </ListGroup.Item>
+                </ListGroup.Item>
 
-              <ListGroup.Item>
-                <span className="fw-bold">Start Time:</span>
-                <span className="mx-2">{timeConverter(event.start_date_time)}</span>
-              </ListGroup.Item>
+                <ListGroup.Item>
+                  <span className="fw-bold">Start Time:</span>
+                  <span className="mx-2">{timeConverter(event.start_date_time)}</span>
+                </ListGroup.Item>
 
-              <ListGroup.Item>
-                <span className="fw-bold">End Time:</span>
-                <span className="mx-2">{timeConverter(event.end_date_time)}</span>
-              </ListGroup.Item>
+                <ListGroup.Item>
+                  <span className="fw-bold">End Time:</span>
+                  <span className="mx-2">{timeConverter(event.end_date_time)}</span>
+                </ListGroup.Item>
 
-              <ListGroup.Item>
-                <span className="fw-bold">Event Type:</span>
-                <span className="mx-2">{event.event_type}</span>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        )
-      })}
+                <ListGroup.Item>
+                  <span className="fw-bold">Event Type:</span>
+                  <span className="mx-2">{event.event_type}</span>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+            </Col>
+            // {/* </CardGroup> */}
+          )
+        })}
+        </Row>
+      {/* </CardGroup> */}
     </div>
   )
 }

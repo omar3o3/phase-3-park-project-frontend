@@ -5,8 +5,8 @@ import Container from 'react-bootstrap/Container'
 
 function NavComponent() {
     return (
-        <Navbar bg='light' sticky="top">
-            <Container className='justify-content-center fs-3'>
+        <Navbar bg="dark" variant="dark" sticky="top">
+            <Container className='fs-3'>
                 <Navbar.Brand className='fs-3'>NavBar:</Navbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Link href='/'>Home Page</Nav.Link>
