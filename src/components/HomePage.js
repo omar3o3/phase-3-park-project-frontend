@@ -10,21 +10,37 @@ function HomePage() {
     fetch('https://data.cityofnewyork.us/resource/tvpp-9vvx.json')
       .then(resp => resp.json())
       // .then(data => displayData(data))
-      .then(data => setEvents(data.slice(0, 20)))
+      .then(data => {
+        setEvents(data.slice(0, 20))
+      })
   }, [])
 
-
+  // Thie function transfer date to the format we want
   let dateConverter = (data) => {
-    let d = new Date(data);
-    // console.log(d.getUTCHours());
-    // console.log(d.getHours());
-    return d.toDateString();
-
-    // let dString = d.toString();
-    // return dString;
-
-    // return dString.getUTCHours();
+    //console.log(data.slice(0, 11))
+    let dateEndIdx = data.indexOf("T")
+    let date = data.slice(0, dateEndIdx).split('-')
+    let newDateFormat = date.join('/')
+    return (newDateFormat)
   }
+
+  // Thie function transfer 24hr time format to 12hr time format
+  let timeConverter = (data) => {
+    let timeStartIdx = data.indexOf("T") + 1
+    //let timeEndIdx = timeStartIdx + 8
+    //console.log("start idx = " + timeStartIdx + "end idx = " + timeEndIdx)
+    //console.log(data.slice(11, 19))
+    let hours = data.slice(timeStartIdx, timeStartIdx + 2)
+    //console.log(hours +"this is hours")
+    let hoursInTwelve = (parseInt(hours) % 12) || 12;
+    let AMOrPM = parseInt(hours) >= 12 ? 'PM' : 'AM';
+    //console.log(hoursInTwelve +" " + AMOrPM + " this is hours in 12hrs format")
+    let minutes = data.slice(timeStartIdx + 3, timeStartIdx + 5)
+    //console.log(hours + ":" + minutes + " " + AmOrPm + " this is hours in 12hrs format")
+    let ampmFormat = hoursInTwelve + ":" + minutes + " " + AMOrPM
+    return(ampmFormat)
+  }
+
 
   function parseIsoDatetime(dtstr) {
     var dt = dtstr.split(/[: T-]/).map(parseFloat);
@@ -49,11 +65,20 @@ function HomePage() {
                 <span className="fw-bold">Borough:</span>
                 <span className="mx-2">{event.event_borough}</span>
               </ListGroup.Item>
+              <ListGroup.Item>
+                <span className="fw-bold">Start Date:</span>
+                <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+
+              </ListGroup.Item>
 
               <ListGroup.Item>
                 <span className="fw-bold">Start Time:</span>
-                <span className="mx-2">{dateConverter(event.start_date_time)}</span>
-                {/* <span className="mx-2">{parseIsoDatetime(event.start_date_time)}</span> */}
+                <span className="mx-2">{timeConverter(event.start_date_time)}</span>
+              </ListGroup.Item>
+
+              <ListGroup.Item>
+                <span className="fw-bold">End Time:</span>
+                <span className="mx-2">{timeConverter(event.end_date_time)}</span>
               </ListGroup.Item>
 
               <ListGroup.Item>
