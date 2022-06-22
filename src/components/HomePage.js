@@ -13,6 +13,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [inputState , setInputState] = useState([]);
+  const [addEventState , setAddEventState] = useState(true);
 
 
   useEffect(() => {
@@ -53,6 +54,8 @@ function HomePage() {
   const handlePost = ({event , inputState}) => {
     // console.log(event);
     // console.log(inputState);
+    // this.setAddEventState(true)
+
     fetch('http://localhost:9292/add-event', {
       method: 'POST',
       headers: {
@@ -114,8 +117,9 @@ function HomePage() {
                     </InputGroup>
                   </ListGroup.Item>
 
-                </ListGroup>
                 <Button variant="outline-dark" onClick={() => handlePost({event , inputState})}>Add To Your Events</Button>
+                </ListGroup>
+                  
               </Card>
             </Col>
           )
