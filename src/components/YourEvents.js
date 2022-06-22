@@ -14,8 +14,8 @@ function YourEvents() {
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
       .then(resp => resp.json())
-      // .then(data => setEventsData(data))
-    .then(data => console.log(data))
+      .then(data => setEventsData(data))
+    // .then(data => console.log(data))
   }, []) 
 
   // Thie function transfer date to the format we want
@@ -38,64 +38,56 @@ function YourEvents() {
   }
 
   return (
-    <div></div>
-//     <div>
-//       <Row xs={1} md={2} lg={4} className="justify-content-center">
-//         {eventsData.all_events.map(event => {
-//           return (
-//             <Col className="m-3" key={event.event_id}>
-//               <Card style={{ width: '18rem' }} bg="light">
+    <div>
+      <Row xs={1} md={2} lg={4} className="justify-content-center">
+        {eventsData.map(event => {
+          return (
+            <Col className="m-3" key={event.your_events.id}>
+              <Card style={{ width: '18rem' }} bg="light">
 
-//                 <Card.Body>
-//                   <Card.Title className="fs-3">{event.event_name}</Card.Title>
-//                   <Card.Text>
-//                     <span className="fw-bold">Location:</span>
-//                     <span className="mx-2">{event.event_location}</span>
-//                   </Card.Text>
-//                 </Card.Body>
+                <Card.Body>
+                  <Card.Title className="fs-3">{event.your_events.event_name}</Card.Title>
+                  <Card.Text>
+                    <span className="fw-bold">Location:</span>
+                    <span className="mx-2">{event.your_events.event_location}</span>
+                  </Card.Text>
+                </Card.Body>
 
-//                 <ListGroup className="list-group-flush">
+                <ListGroup className="list-group-flush">
 
-//                   <ListGroup.Item>
-//                     <span className="fw-bold">Borough:</span>
-//                     <span className="mx-2">{event.event_borough}</span>
-//                   </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Borough:</span>
+                    <span className="mx-2">{event.borough_name}</span>
+                  </ListGroup.Item>
 
-//                   <ListGroup.Item>
-//                     <span className="fw-bold">Start Date:</span>
-//                     <span className="mx-2">{dateConverter(event.start_date_time)}</span>
-//                   </ListGroup.Item>
+                  {/* <ListGroup.Item>
+                    <span className="fw-bold">Start Date:</span>
+                    <span className="mx-2">{dateConverter(event.your_events.start_date_time)}</span>
+                  </ListGroup.Item>
 
-//                   <ListGroup.Item>
-//                     <span className="fw-bold">Start Time:</span>
-//                     <span className="mx-2">{timeConverter(event.start_date_time)}</span>
-//                   </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Start Time:</span>
+                    <span className="mx-2">{timeConverter(event.your_events.start_date_time)}</span>
+                  </ListGroup.Item>
 
-//                   <ListGroup.Item>
-//                     <span className="fw-bold">End Time:</span>
-//                     <span className="mx-2">{timeConverter(event.end_date_time)}</span>
-//                   </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">End Time:</span>
+                    <span className="mx-2">{timeConverter(event.your_events.end_date_time)}</span>
+                  </ListGroup.Item> */}
 
-//                   <ListGroup.Item>
-//                     <span className="fw-bold">Event Type:</span>
-//                     <span className="mx-2">{event.event_type}</span>
-//                   </ListGroup.Item>
-// {/* 
-//                   <ListGroup.Item>
-//                     <InputGroup className="mb-3">
-//                       <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setInputState(e.target.value)}></textarea>
-//                     </InputGroup>
-//                   </ListGroup.Item> */}
+                  <ListGroup.Item>
+                    <span className="fw-bold">Event Type:</span>
+                    <span className="mx-2">{event.event_types.event_type_name}</span>
+                  </ListGroup.Item>
 
-//                   {/* <Button variant="outline-dark" onClick={() => handlePost({ event, inputState })}>Add To Your Events</Button> */}
-//                 </ListGroup>
+                </ListGroup>
 
-//               </Card>
-//             </Col>
-//           )
-//         })}
-//       </Row>
-//     </div>
+              </Card>
+            </Col>
+          )
+        })}
+      </Row>
+    </div>
   )
 }
 
