@@ -2,19 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-// import CardGroup from 'react-bootstrap/CardGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [inputState , setInputState] = useState([]);
-  const [addEventState , setAddEventState] = useState(true);
-
 
   useEffect(() => {
     fetch('https://data.cityofnewyork.us/resource/tvpp-9vvx.json')
@@ -52,9 +48,6 @@ function HomePage() {
   }
 
   const handlePost = ({event , inputState}) => {
-    // console.log(event);
-    // console.log(inputState);
-    // this.setAddEventState(true)
 
     fetch('http://localhost:9292/add-event', {
       method: 'POST',
