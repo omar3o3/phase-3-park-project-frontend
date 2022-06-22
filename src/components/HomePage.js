@@ -9,6 +9,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 
 function HomePage() {
+
   const [events, setEvents] = useState([]);
   const [inputState , setInputState] = useState([]);
 
@@ -21,9 +22,9 @@ function HomePage() {
       })
   }, [])
 
+
   // Thie function transfer date to the format we want
   let dateConverter = (data) => {
-    //console.log(data.slice(0, 11))
     let dateEndIdx = data.indexOf("T")
     let date = data.slice(0, dateEndIdx).split('-')
     let newDateFormat = date.join('/')
@@ -33,16 +34,10 @@ function HomePage() {
   // Thie function transfer 24hr time format to 12hr time format
   let timeConverter = (data) => {
     let timeStartIdx = data.indexOf("T") + 1
-    //let timeEndIdx = timeStartIdx + 8
-    //console.log("start idx = " + timeStartIdx + "end idx = " + timeEndIdx)
-    //console.log(data.slice(11, 19))
     let hours = data.slice(timeStartIdx, timeStartIdx + 2)
-    //console.log(hours +"this is hours")
     let hoursInTwelve = (parseInt(hours) % 12) || 12;
     let AMOrPM = parseInt(hours) >= 12 ? 'PM' : 'AM';
-    //console.log(hoursInTwelve +" " + AMOrPM + " this is hours in 12hrs format")
     let minutes = data.slice(timeStartIdx + 3, timeStartIdx + 5)
-    //console.log(hours + ":" + minutes + " " + AmOrPm + " this is hours in 12hrs format")
     let ampmFormat = hoursInTwelve + ":" + minutes + " " + AMOrPM
     return (ampmFormat)
   }
