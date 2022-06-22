@@ -6,10 +6,13 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 
 function HomePage() {
   const [events, setEvents] = useState([]);
+  const [inputState , setInputState] = useState([]);
 
 
   useEffect(() => {
@@ -47,67 +50,77 @@ function HomePage() {
     return (ampmFormat)
   }
 
-
-  function parseIsoDatetime(dtstr) {
-    var dt = dtstr.split(/[: T-]/).map(parseFloat);
-    return new Date(dt[0], dt[1] - 1, dt[2], dt[3] || 0, dt[4] || 0, dt[5] || 0, 0);
-  }
-
-  const handleClick = (event) => {
-    console.log(event);
+  const handlePost = ({event , inputState}) => {
+    // console.log(event);
+    // console.log(inputState);
+    fetch('http://localhost:9292/add-event', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        event,
+        inputState
+      }),
+    })
   }
 
   return (
     <div>
-      {/* <CardGroup> */}
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {events.map(event => {
           return (
-            // <CardGroup>
             <Col className="m-3" key={event.event_id}>
-            <Card style={{ width: '18rem' }} bg="light">
-              <Card.Body>
-                <Card.Title className="fs-3">{event.event_name}</Card.Title>
-                <Card.Text>
-                  <span className="fw-bold">Location:</span>
-                  <span className="mx-2">{event.event_location}</span>
-                </Card.Text>
-              </Card.Body>
-              <ListGroup className="list-group-flush">
+              <Card style={{ width: '18rem' }} bg="light">
 
-                <ListGroup.Item>
-                  <span className="fw-bold">Borough:</span>
-                  <span className="mx-2">{event.event_borough}</span>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <span className="fw-bold">Start Date:</span>
-                  <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+                <Card.Body>
+                  <Card.Title className="fs-3">{event.event_name}</Card.Title>
+                  <Card.Text>
+                    <span className="fw-bold">Location:</span>
+                    <span className="mx-2">{event.event_location}</span>
+                  </Card.Text>
+                </Card.Body>
 
-                </ListGroup.Item>
+                <ListGroup className="list-group-flush">
 
-                <ListGroup.Item>
-                  <span className="fw-bold">Start Time:</span>
-                  <span className="mx-2">{timeConverter(event.start_date_time)}</span>
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Borough:</span>
+                    <span className="mx-2">{event.event_borough}</span>
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <span className="fw-bold">End Time:</span>
-                  <span className="mx-2">{timeConverter(event.end_date_time)}</span>
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Start Date:</span>
+                    <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <span className="fw-bold">Event Type:</span>
-                  <span className="mx-2">{event.event_type}</span>
-                </ListGroup.Item>
-              </ListGroup>
-              <Button variant="outline-dark" onClick={() => handleClick(event)}>Add To Your Events</Button>
-            </Card>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Start Time:</span>
+                    <span className="mx-2">{timeConverter(event.start_date_time)}</span>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <span className="fw-bold">End Time:</span>
+                    <span className="mx-2">{timeConverter(event.end_date_time)}</span>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <span className="fw-bold">Event Type:</span>
+                    <span className="mx-2">{event.event_type}</span>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <InputGroup className="mb-3">
+                      <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setInputState(e.target.value)}></textarea>
+                    </InputGroup>
+                  </ListGroup.Item>
+
+                </ListGroup>
+                <Button variant="outline-dark" onClick={() => handlePost({event , inputState})}>Add To Your Events</Button>
+              </Card>
             </Col>
-            // {/* </CardGroup> */}
           )
         })}
-        </Row>
-      {/* </CardGroup> */}
+      </Row>
     </div>
   )
 }
