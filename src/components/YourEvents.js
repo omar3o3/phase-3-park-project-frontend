@@ -14,9 +14,12 @@ function YourEvents() {
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
       .then(resp => resp.json())
+      .then(data => console.log(data))
       // .then(data => setEventsData(data))
-    // .then(data => console.log(data))
-    .then(data => console.log(timeConverter(data[0].your_events[0].start_date_time)))
+    
+    fetch('http://localhost:9292/boroughs')
+    .then(resp => resp.json())
+    .then(data => console.log(data))
   }, []) 
 
   // Thie function transfer date to the format we want
@@ -37,12 +40,6 @@ function YourEvents() {
     let ampmFormat = hoursInTwelve + ":" + minutes + " " + AMOrPM
     return (ampmFormat)
   }
-  // console.log(eventsData)
-  // console.log("above is eventsData")
-  // console.log(eventsData[0].borough_name)
-  // console.log("this level contains borough_name, event_types and your_events object")
-  //console.log(eventsData[0].your_events)
-
 
   return (
     <div></div>
