@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -33,6 +33,25 @@ function YourEvents() {
     setEditState(arr)
   }, [yourEventsData])
 
+  let updateFriends = useCallback((e, id) => {
+    fetch(`http://localhost:9292/edit-friends/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: editInputState,
+        friend_id: id
+      }),
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        window.location.reload();
+      })
+  }, [editInputState])
+
+
+  console.log(friendsData)
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
@@ -49,7 +68,9 @@ function YourEvents() {
 
     fetch('http://localhost:9292/friends')
       .then(resp => resp.json())
-      .then(data => setFriendsData(data))
+      .then(data => {
+        setFriendsData(data)
+      })
   }, [])
 
   // Thie function transfer date to the format we want
@@ -74,27 +95,10 @@ function YourEvents() {
   const handleEdit = (e, id) => {
     setEditState(editState => editState.map((item, idx) => idx === id - 1 ? !item : item))
 
-    // console.log(e.target.textContent)
-    // console.log(id)
     if (e.target.textContent === 'Done Editing' && editInputState !== []) {
-
-      // console.log('hi from handleEdit')
-
-      fetch(`http://localhost:9292/edit-friends/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          text: editInputState
-        }),
-      })
-      .then (resp => resp.json())
-      .then(data => console.log(data))
+      updateFriends(e, id)
     }
   }
-
-  // console.log(editState)
 
   return (
     <div>
@@ -153,6 +157,8 @@ function YourEvents() {
                   }
 
                   <Button variant="outline-dark" onClick={(e) => handleEdit(e, event.id)} >{editState[event.id - 1] ? "Done Editing" : "Edit Invitation"}</Button>
+
+                  {/* <Button variant="outline-light">Delete My Event</Button> */}
                 </ListGroup>
               </Card>
             </Col>
