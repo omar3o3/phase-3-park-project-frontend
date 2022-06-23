@@ -14,9 +14,9 @@ function YourEvents() {
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
       .then(resp => resp.json())
-      // .then(data => setEventsData(data))
+      .then(data => setEventsData(data))
     // .then(data => console.log(data))
-    .then(data => console.log(timeConverter(data[0].your_events[0].start_date_time)))
+    // .then(data => console.log(timeConverter(data[0].your_events[0].start_date_time)))
   }, []) 
 
   // Thie function transfer date to the format we want
@@ -45,7 +45,22 @@ function YourEvents() {
 
 
   return (
-    <div></div>
+    <div>
+      <Row xs={1} md={2} lg={4} className="justify-content-center">
+      {eventsData.map(borough => borough.your_events).map(events => events.map(event => console.log(event.friend)))}
+      </Row>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
     // <div>
     //   <Row xs={1} md={2} lg={4} className="justify-content-center">
     //     {eventsData.map(event => {
