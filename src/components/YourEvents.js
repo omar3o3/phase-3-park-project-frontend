@@ -16,7 +16,7 @@ function YourEvents() {
 
   const [editInputState, setEditInputState] = useState([]);
   const [editState, setEditState] = useState([]);
-  
+
 
 
   useEffect(() => {
@@ -71,11 +71,25 @@ function YourEvents() {
     return (ampmFormat)
   }
 
-  const handleEdit = (id) => {
-    setEditState(editState => editState.map((item, idx) => idx === id-1 ? !item : item))
+  const handleEdit = (e, id) => {
+    setEditState(editState => editState.map((item, idx) => idx === id - 1 ? !item : item))
+
+    // console.log(e.target.textContent)
+    // console.log(id)
+    if (e.target.textContent === 'Done Editing') {
+      fetch(`http://localhost:9292/edit-friends/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editInputState),
+      })
+      .then (resp => resp.json())
+      .then(data => console.log(data))
+    }
   }
 
-  console.log(editState)
+  // console.log(editState)
 
   return (
     <div>
@@ -118,7 +132,7 @@ function YourEvents() {
                     <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
                   </ListGroup.Item>
 
-                  {editState[event.id-1] ?
+                  {editState[event.id - 1] ?
                     <ListGroup.Item>
                       <InputGroup className="mb-3">
                         <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setEditInputState(e.target.value)}>
@@ -133,7 +147,7 @@ function YourEvents() {
                     </ListGroup.Item>
                   }
 
-                  <Button variant="outline-dark" onClick={() => handleEdit(event.id)}>{editState[event.id-1] ? "Done Editing" : "Edit Invitation"}</Button>
+                  <Button variant="outline-dark" onClick={(e) => handleEdit(e, event.id)} >{editState[event.id - 1] ? "Done Editing" : "Edit Invitation"}</Button>
                 </ListGroup>
               </Card>
             </Col>
