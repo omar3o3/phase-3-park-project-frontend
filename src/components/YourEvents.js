@@ -27,7 +27,7 @@ function YourEvents() {
     setEditState(arr)
   }, [yourEventsData])
 
-  let updateFriends = useCallback((e, id) => {
+  let updateFriends = useCallback((id) => {
     fetch(`http://localhost:9292/edit-friends/${id}`, {
       method: 'PATCH',
       headers: {
@@ -44,7 +44,7 @@ function YourEvents() {
   }, [editInputState])
 
 
-  console.log(friendsData)
+  // console.log(friendsData)
   console.log(editState)
 
   useEffect(() => {
@@ -86,11 +86,12 @@ function YourEvents() {
     return (ampmFormat)
   }
 
-  const handleEdit = (e, id) => {
-    setEditState(editState => editState.map((item, idx) => idx === id - 1 ? !item : item))
+  const handleEdit = (e, index ,id) => {
+    let indexInt = parseInt(index)
+    setEditState(editState => editState.map((item, idx) => idx === indexInt ? !item : item))
 
     if (e.target.textContent === 'Done Editing' && editInputState !== '') {
-      updateFriends(e, id)
+      updateFriends(id)
     }
   }
   
@@ -143,7 +144,7 @@ function YourEvents() {
                     <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
                   </ListGroup.Item>
 
-                  {editState[event.id - 1] ?
+                  {editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ?
                     <ListGroup.Item>
                       <InputGroup className="mb-3">
                         <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setEditInputState(e.target.value)}>
@@ -158,7 +159,10 @@ function YourEvents() {
                     </ListGroup.Item>
                   }
 
-                  <Button variant="outline-dark" onClick={(e) => handleEdit(e, event.id)} >{editState[event.id - 1] ? "Done Editing" : "Edit Invitation"}</Button>
+                  <Button variant="outline-dark" onClick={(e) => handleEdit(e , Object.keys(yourEventsData).find(key => yourEventsData[key] === event) , event.id)} >{editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}</Button>
+
+                  {/* {console.log("show the corresponding key of this event card" + Object.keys(yourEventsData).find(key => yourEventsData[key] === event) )} */}
+                  {/* {console.log("show current event " + event.event_name + "show event.id " + event.id)} */}
 
                   <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>Delete My Event</Button>
                 </ListGroup>
