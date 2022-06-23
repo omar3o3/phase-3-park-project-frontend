@@ -14,14 +14,8 @@ function YourEvents() {
   const [eventTypesData, setEventTypesData] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
 
-  const [editInputState, setEditInputState] = useState([]);
+  const [editInputState, setEditInputState] = useState('');
   const [editState, setEditState] = useState([]);
-
-
-
-  useEffect(() => {
-
-  })
 
 
   useEffect(() => {
@@ -45,13 +39,13 @@ function YourEvents() {
       }),
     })
       .then(resp => resp.json())
-      .then(data => {
-        window.location.reload();
-      })
+      .then(data => {console.log(data)})
+      window.location.reload()
   }, [editInputState])
 
 
   console.log(friendsData)
+  console.log(editState)
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
@@ -95,7 +89,7 @@ function YourEvents() {
   const handleEdit = (e, id) => {
     setEditState(editState => editState.map((item, idx) => idx === id - 1 ? !item : item))
 
-    if (e.target.textContent === 'Done Editing' && editInputState !== []) {
+    if (e.target.textContent === 'Done Editing' && editInputState !== '') {
       updateFriends(e, id)
     }
   }
