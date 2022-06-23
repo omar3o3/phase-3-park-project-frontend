@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { render } from '@testing-library/react';
 
 function YourEvents() {
 
@@ -17,7 +18,7 @@ function YourEvents() {
       .then(data => setEventsData(data))
     // .then(data => console.log(data))
     // .then(data => console.log(timeConverter(data[0].your_events[0].start_date_time)))
-  }, []) 
+  }, [])
 
   // Thie function transfer date to the format we want
   let dateConverter = (data) => {
@@ -37,17 +38,32 @@ function YourEvents() {
     let ampmFormat = hoursInTwelve + ":" + minutes + " " + AMOrPM
     return (ampmFormat)
   }
-  // console.log(eventsData)
-  // console.log("above is eventsData")
-  // console.log(eventsData[0].borough_name)
-  // console.log("this level contains borough_name, event_types and your_events object")
-  //console.log(eventsData[0].your_events)
 
+    // const boroughName = eventsData.map(borough => {
+    //   return (
+    //     // console.log(borough.borough_name)
+    //     <Card style={{ width: '18rem' }} bg="light" key={borough.id}>
+    //       <Card.Body>
+    //         <Card.Title className="fs-3">{borough.borough_name}</Card.Title>
+    //       </Card.Body>
+    //     </Card>
+    //   )
+    // })
+
+    const EventData = eventsData.map(borough => borough.your_events).map(event => {
+      return (<Card.Title className="fs-3" key={event.id}>{event.event_name}</Card.Title>)
+    })
+
+
+
+  // {eventsData.map(borough => borough.your_events).map(events => events.map(event => console.log(event.friend)))}
 
   return (
     <div>
       <Row xs={1} md={2} lg={4} className="justify-content-center">
-      {eventsData.map(borough => borough.your_events).map(events => events.map(event => console.log(event.friend)))}
+        <Col className="m-3">
+          {EventData}
+        </Col>
       </Row>
     </div>
 
