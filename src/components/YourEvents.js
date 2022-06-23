@@ -93,6 +93,14 @@ function YourEvents() {
       updateFriends(e, id)
     }
   }
+  
+  function handleDelete(e, event_id) {
+    console.log(event_id)
+    fetch(`http://localhost:9292/your-events/delete/${event_id}`, {
+      method: 'DELETE',
+    })
+    window.location.reload();
+  }
 
   return (
     <div>
@@ -152,7 +160,7 @@ function YourEvents() {
 
                   <Button variant="outline-dark" onClick={(e) => handleEdit(e, event.id)} >{editState[event.id - 1] ? "Done Editing" : "Edit Invitation"}</Button>
 
-                  {/* <Button variant="outline-light">Delete My Event</Button> */}
+                  <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>Delete My Event</Button>
                 </ListGroup>
               </Card>
             </Col>
