@@ -161,9 +161,6 @@ function YourEvents() {
 
                   <Button variant="outline-dark" onClick={(e) => handleEdit(e , Object.keys(yourEventsData).find(key => yourEventsData[key] === event) , event.id)} >{editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}</Button>
 
-                  {/* {console.log("show the corresponding key of this event card" + Object.keys(yourEventsData).find(key => yourEventsData[key] === event) )} */}
-                  {/* {console.log("show current event " + event.event_name + "show event.id " + event.id)} */}
-
                   <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>Delete My Event</Button>
                 </ListGroup>
               </Card>
