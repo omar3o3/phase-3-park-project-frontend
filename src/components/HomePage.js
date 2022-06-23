@@ -11,7 +11,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 function HomePage() {
 
   const [events, setEvents] = useState([]);
-  const [inputState , setInputState] = useState([]);
+  const [inputState, setInputState] = useState([]);
 
   useEffect(() => {
     fetch('https://data.cityofnewyork.us/resource/tvpp-9vvx.json')
@@ -42,8 +42,7 @@ function HomePage() {
     return (ampmFormat)
   }
 
-  const handlePost = ({event , inputState}) => {
-
+  const handlePost = ({e, event, inputState }) => {
     fetch('http://localhost:9292/add-event', {
       method: 'POST',
       headers: {
@@ -58,6 +57,9 @@ function HomePage() {
 
   return (
     <div>
+      <span className='text-center'>
+        <h1 className="fs-1 my-2">All New York City Permitted Events</h1>
+      </span>
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {events.map(event => {
           return (
@@ -105,9 +107,9 @@ function HomePage() {
                     </InputGroup>
                   </ListGroup.Item>
 
-                <Button variant="outline-dark" onClick={() => handlePost({event , inputState})}>Add To Your Events</Button>
+                  <Button variant="outline-dark" onClick={(e) => handlePost({e, event, inputState })}>Add To Your Events</Button>
                 </ListGroup>
-                  
+
               </Card>
             </Col>
           )
