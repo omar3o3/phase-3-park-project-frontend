@@ -76,13 +76,18 @@ function YourEvents() {
 
     // console.log(e.target.textContent)
     // console.log(id)
-    if (e.target.textContent === 'Done Editing') {
+    if (e.target.textContent === 'Done Editing' && editInputState !== []) {
+
+      // console.log('hi from handleEdit')
+
       fetch(`http://localhost:9292/edit-friends/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(editInputState),
+        body: JSON.stringify({
+          text: editInputState
+        }),
       })
       .then (resp => resp.json())
       .then(data => console.log(data))
