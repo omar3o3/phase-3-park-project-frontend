@@ -80,7 +80,7 @@ function HomePage() {
                   </ListGroup.Item>
 
                   <ListGroup.Item>
-                    <span className="fw-bold">Start Date:</span>
+                    <span className="fw-bold">Event Date:</span>
                     <span className="mx-2">{dateConverter(event.start_date_time)}</span>
                   </ListGroup.Item>
 

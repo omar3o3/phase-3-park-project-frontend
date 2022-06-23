@@ -9,18 +9,29 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 function YourEvents() {
 
-  const [eventsData, setEventsData] = useState([])
+  const [yourEventsData, setYourEventsData] = useState([]);
+  const [boroughsData, setBoroughsData] = useState([]);
+  const [eventTypesData, setEventTypesData] = useState([]);
+  const [friendsData, setFriendsData] = useState([]);
+
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
       .then(resp => resp.json())
-      .then(data => console.log(data))
-      // .then(data => setEventsData(data))
-    
+      .then(data => setYourEventsData(data))
+
     fetch('http://localhost:9292/boroughs')
-    .then(resp => resp.json())
-    .then(data => console.log(data))
-  }, []) 
+      .then(resp => resp.json())
+      .then(data => setBoroughsData(data))
+
+    fetch('http://localhost:9292/event_types')
+      .then(resp => resp.json())
+      .then(data => setEventTypesData(data))
+
+    fetch('http://localhost:9292/friends')
+      .then(resp => resp.json())
+      .then(data => setFriendsData(data))
+  }, [])
 
   // Thie function transfer date to the format we want
   let dateConverter = (data) => {
@@ -42,57 +53,59 @@ function YourEvents() {
   }
 
   return (
-    <div></div>
-    // <div>
-    //   <Row xs={1} md={2} lg={4} className="justify-content-center">
-    //     {eventsData.map(event => {
-    //       return (
-    //         <Col className="m-3" key={event.your_events.id}>
-    //           <Card style={{ width: '18rem' }} bg="light">
+    <div>
+      <Row xs={1} md={2} lg={4} className="justify-content-center">
+        {yourEventsData.map(event => {
+          return (
+            <Col className="m-3" key={event.id}>
+              <Card style={{ width: '18rem' }} bg="light">
+                <Card.Body>
+                  <Card.Title className="fs-3">{event.event_name}</Card.Title>
+                  <Card.Text>
+                    <span className="fw-bold">Location:</span>
+                    <span className="mx-2">{event.event_location}</span>
+                  </Card.Text>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
 
-    //             <Card.Body>
-    //               <Card.Title className="fs-3">{event.your_events.event_name}</Card.Title>
-    //               <Card.Text>
-    //                 <span className="fw-bold">Location:</span>
-    //                 <span className="mx-2">{event.your_events.event_location}</span>
-    //               </Card.Text>
-    //             </Card.Body>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Borough:</span>
+                    <span className="mx-2">{(boroughsData.filter(borough => borough.id === event.borough_id)).map(borough => borough.borough_name)}</span>
+                  </ListGroup.Item>
 
-    //             <ListGroup className="list-group-flush">
+                  <ListGroup.Item>
+                    <span className="fw-bold">Event Date:</span>
+                    <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+                  </ListGroup.Item>
 
-    //               <ListGroup.Item>
-    //                 <span className="fw-bold">Borough:</span>
-    //                 <span className="mx-2">{event.borough_name}</span>
-    //               </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Start Time:</span>
+                    <span className="mx-2">{timeConverter(event.start_date_time)}</span>
+                  </ListGroup.Item>
 
-    //               {/* <ListGroup.Item>
-    //                 <span className="fw-bold">Start Date:</span>
-    //                 <span className="mx-2">{dateConverter(event.your_events.start_date_time)}</span>
-    //               </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">End Time:</span>
+                    <span className="mx-2">{timeConverter(event.end_date_time)}</span>
+                  </ListGroup.Item>
 
-    //               <ListGroup.Item>
-    //                 <span className="fw-bold">Start Time:</span>
-    //                 <span className="mx-2">{timeConverter(event.your_events.start_date_time)}</span>
-    //               </ListGroup.Item>
+                  <ListGroup.Item>
+                    <span className="fw-bold">Event Type:</span>
+                    <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
+                  </ListGroup.Item>
 
-    //               <ListGroup.Item>
-    //                 <span className="fw-bold">End Time:</span>
-    //                 <span className="mx-2">{timeConverter(event.your_events.end_date_time)}</span>
-    //               </ListGroup.Item> */}
+                  <ListGroup.Item>
+                    <span className="fw-bold">Friends:</span>
+                    <span className="mx-2">{(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}</span>
+                  </ListGroup.Item>
 
-    //               <ListGroup.Item>
-    //                 <span className="fw-bold">Event Type:</span>
-    //                 <span className="mx-2">{event.event_types.event_type_name}</span>
-    //               </ListGroup.Item>
-
-    //             </ListGroup>
-
-    //           </Card>
-    //         </Col>
-    //       )
-    //     })}
-    //   </Row>
-    // </div>
+                {/* <Button variant="outline-dark" onClick={() => handleEdit({event , inputState})}>Edit Invitation</Button> */}
+                </ListGroup>
+              </Card>
+            </Col>
+          )
+        })}
+      </Row>
+    </div>
   )
 }
 
