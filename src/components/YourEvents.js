@@ -14,6 +14,25 @@ function YourEvents() {
   const [eventTypesData, setEventTypesData] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
 
+  const [editInputState, setEditInputState] = useState([]);
+  const [editState, setEditState] = useState([]);
+  
+
+
+  useEffect(() => {
+
+  })
+
+
+  useEffect(() => {
+    let arr = []
+    for (let i = 0; i < yourEventsData.length; i++) {
+      arr.push(false)
+    }
+
+    setEditState(arr)
+  }, [yourEventsData])
+
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
@@ -51,6 +70,12 @@ function YourEvents() {
     let ampmFormat = hoursInTwelve + ":" + minutes + " " + AMOrPM
     return (ampmFormat)
   }
+
+  const handleEdit = (id) => {
+    setEditState(editState => editState.map((item, idx) => idx === id-1 ? !item : item))
+  }
+
+  console.log(editState)
 
   return (
     <div>
@@ -93,12 +118,22 @@ function YourEvents() {
                     <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
                   </ListGroup.Item>
 
-                  <ListGroup.Item>
-                    <span className="fw-bold">Friends:</span>
-                    <span className="mx-2">{(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}</span>
-                  </ListGroup.Item>
+                  {editState[event.id-1] ?
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setEditInputState(e.target.value)}>
+                          {(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}
+                        </textarea>
+                      </InputGroup>
+                    </ListGroup.Item>
+                    :
+                    <ListGroup.Item>
+                      <span className="fw-bold">Friends:</span>
+                      <span className="mx-2">{(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}</span>
+                    </ListGroup.Item>
+                  }
 
-                {/* <Button variant="outline-dark" onClick={() => handleEdit({event , inputState})}>Edit Invitation</Button> */}
+                  <Button variant="outline-dark" onClick={() => handleEdit(event.id)}>{editState[event.id-1] ? "Done Editing" : "Edit Invitation"}</Button>
                 </ListGroup>
               </Card>
             </Col>
