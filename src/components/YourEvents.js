@@ -155,6 +155,10 @@ function YourEvents() {
         :
         null
       }
+      <div>
+        <Calendar onChange={(e)=>changeDate(e)} value={dateValue}/>
+        <Button variant="outline-dark" onClick={showAllEvents}>Show All</Button>
+      </div>
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {
         displayedData.map(event => {
