@@ -18,7 +18,7 @@ function HomePage() {
       .then(resp => resp.json())
       // .then(data => displayData(data))
       .then(data => {
-        setEvents(data)
+        setEvents(data.slice(0,20))
       })
   }, [])
 
