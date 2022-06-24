@@ -8,12 +8,13 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
-
 function HomePage() {
 
   const [events, setEvents] = useState([]);
   const [inputState, setInputState] = useState('');
   const [showAddedState , setShowAddedState] = useState(false);
+
+  
 
   useEffect(() => {
     fetch('https://data.cityofnewyork.us/resource/tvpp-9vvx.json')
@@ -27,7 +28,7 @@ function HomePage() {
   // Thie function transfer date to the format we want
   let dateConverter = (data) => {
     let dateEndIdx = data.indexOf("T")
-    let date = data.slice(0, dateEndIdx).split('-')
+    let date = data.slice(dateEndIdx-10, dateEndIdx).split('-')
     let newDateFormat = date.join('/')
     return (newDateFormat)
   }
@@ -69,6 +70,7 @@ function HomePage() {
 
   return (
     <div>
+      
       <span className='text-center'>
         <h1 className="fs-1 my-2">All New York City Permitted Events</h1>
       </span>
