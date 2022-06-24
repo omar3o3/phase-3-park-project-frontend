@@ -94,11 +94,11 @@ function YourEvents() {
   }
   
   function handleDelete(e, event_id) {
-    console.log(event_id)
+    let newArr = [...yourEventsData]
     fetch(`http://localhost:9292/your-events/delete/${event_id}`, {
       method: 'DELETE',
     })
-    window.location.reload();
+    .then(setYourEventsData(newArr.filter(item => item.id !== event_id)))
   }
 
   return (
