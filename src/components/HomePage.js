@@ -20,7 +20,7 @@ function HomePage() {
     fetch('https://data.cityofnewyork.us/resource/tvpp-9vvx.json')
       .then(resp => resp.json())
       .then(data => {
-        setEvents(data.slice(0,20))
+        setEvents(data.slice(0,100))
       })
   }, [])
 
