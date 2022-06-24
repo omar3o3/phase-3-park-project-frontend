@@ -109,7 +109,7 @@ function YourEvents() {
     setShowDeletedState(true)
     setTimeout(changeStateToFalse, 2000)
   }
-
+  
   const changeStateToFalse = () => {
     setShowDeletedState(false)
   }
