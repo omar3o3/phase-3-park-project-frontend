@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Alert from 'react-bootstrap/Alert';
 
 function YourEvents() {
 
@@ -16,6 +17,7 @@ function YourEvents() {
 
   const [editInputState, setEditInputState] = useState('');
   const [editState, setEditState] = useState([]);
+  const [showDeletedState, setShowDeletedState] = useState(false);
 
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function YourEvents() {
     setEditState(arr)
   }, [yourEventsData])
 
-  let updateFriends = useCallback((id , index) => {
+  let updateFriends = useCallback((id, index) => {
     let newArr = [...friendsData]
     fetch(`http://localhost:9292/edit-friends/${id}`, {
       method: 'PATCH',
@@ -40,10 +42,11 @@ function YourEvents() {
       }),
     })
       .then(resp => resp.json())
-      .then(data => {newArr[index] = data
+      .then(data => {
+        newArr[index] = data
         setFriendsData(newArr)
       }).then(console.log(newArr))
-  }, [editInputState , friendsData])
+  }, [editInputState, friendsData])
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
@@ -84,25 +87,42 @@ function YourEvents() {
     return (ampmFormat)
   }
 
-  const handleEdit = (e, index ,id) => {
+  const handleEdit = (e, index, id) => {
     let indexInt = parseInt(index)
     setEditState(editState => editState.map((item, idx) => idx === indexInt ? !item : item))
 
     if (e.target.textContent === 'Done Editing' && editInputState !== '') {
-      updateFriends(id , index)
+      updateFriends(id, index)
     }
   }
-  
+
   function handleDelete(e, event_id) {
     let newArr = [...yourEventsData]
     fetch(`http://localhost:9292/your-events/delete/${event_id}`, {
       method: 'DELETE',
     })
-    .then(setYourEventsData(newArr.filter(item => item.id !== event_id)))
+      .then(setYourEventsData(newArr.filter(item => item.id !== event_id)))
+      .then(changeStateTrue())
+  }
+
+  const changeStateTrue = () => {
+    setShowDeletedState(true)
+    setTimeout(changeStateToFalse, 2000)
+  }
+
+  const changeStateToFalse = () => {
+    setShowDeletedState(false)
   }
 
   return (
     <div>
+      {showDeletedState ?
+        <span className='text-center'>
+          <Alert variant={"danger"} className="fs-3 sticky-top">Your Event Was Deleted!</Alert>
+        </span>
+        :
+        null
+      }
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {yourEventsData.map(event => {
           return (
@@ -163,7 +183,7 @@ function YourEvents() {
                     </ListGroup.Item>
                   }
 
-                  <Button variant="outline-dark" onClick={(e) => handleEdit(e , Object.keys(yourEventsData).find(key => yourEventsData[key] === event) , event.id)}>
+                  <Button variant="outline-dark" onClick={(e) => handleEdit(e, Object.keys(yourEventsData).find(key => yourEventsData[key] === event), event.id)}>
                     {editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}
                   </Button>
 

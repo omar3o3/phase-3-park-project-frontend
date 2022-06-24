@@ -12,7 +12,7 @@ import Alert from 'react-bootstrap/Alert';
 function HomePage() {
 
   const [events, setEvents] = useState([]);
-  const [inputState, setInputState] = useState([]);
+  const [inputState, setInputState] = useState('');
   const [showAddedState , setShowAddedState] = useState(false);
 
   useEffect(() => {
@@ -54,14 +54,13 @@ function HomePage() {
         inputState
       }),
     })
+    .then(setInputState(''))
     .then(changeStateTrue())
   }
 
   const changeStateTrue = () =>{
     setShowAddedState(true)
-    setTimeout(changeStateToFalse , 3000)
-    
-
+    setTimeout(changeStateToFalse , 2000)
   }
 
   const changeStateToFalse = () => {
@@ -76,7 +75,7 @@ function HomePage() {
 
       {showAddedState ?
       <span className='text-center'>
-        <Alert variant={"success"} className="fs-2 sticky-top">Your Event Was Added!</Alert>
+        <Alert variant={"success"} className="fs-3 sticky-top">Your Event Was Added!</Alert>
       </span>
       :
       null
