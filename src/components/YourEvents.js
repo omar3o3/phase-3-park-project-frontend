@@ -166,7 +166,7 @@ function YourEvents() {
           displayedData.map(event => {
             return (
               <Col className="m-4" key={event.id}>
-                <Card style={{ width: '18rem' }} bg="light">
+                <Card style={{ width: '18rem' }} bg='success' text='white'>
                   <Card.Body>
                     <Card.Title className="fs-3">{event.event_name}</Card.Title>
                     <Card.Text>
