@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Alert from 'react-bootstrap/Alert';
 
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
@@ -19,6 +20,7 @@ function YourEvents() {
 
   const [editInputState, setEditInputState] = useState('');
   const [editState, setEditState] = useState([]);
+  const [showDeletedState, setShowDeletedState] = useState(false);
 
 
   useEffect(() => {
@@ -30,7 +32,8 @@ function YourEvents() {
     setEditState(arr)
   }, [yourEventsData])
 
-  let updateFriends = useCallback((id) => {
+  let updateFriends = useCallback((id, index) => {
+    let newArr = [...friendsData]
     fetch(`http://localhost:9292/edit-friends/${id}`, {
       method: 'PATCH',
       headers: {
@@ -42,13 +45,11 @@ function YourEvents() {
       }),
     })
       .then(resp => resp.json())
-      .then(data => {console.log(data)})
-      window.location.reload()
-  }, [editInputState])
-
-
-  // console.log(friendsData)
-  console.log(editState)
+      .then(data => {
+        newArr[index] = data
+        setFriendsData(newArr)
+      }).then(console.log(newArr))
+  }, [editInputState, friendsData])
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
@@ -89,6 +90,7 @@ function YourEvents() {
     return (ampmFormat)
   }
 
+
   const [dateValue, setDateValue] = useState(new Date()); 
   const [showAll, setShowAll] = useState(true)
 
@@ -121,27 +123,41 @@ function YourEvents() {
     setEditState(editState => editState.map((item, idx) => idx === indexInt ? !item : item))
 
     if (e.target.textContent === 'Done Editing' && editInputState !== '') {
-      updateFriends(id)
+      updateFriends(id, index)
     }
   }
-  
+
   function handleDelete(e, event_id) {
-    console.log(event_id)
+    let newArr = [...yourEventsData]
     fetch(`http://localhost:9292/your-events/delete/${event_id}`, {
       method: 'DELETE',
     })
-    window.location.reload();
+      .then(setYourEventsData(newArr.filter(item => item.id !== event_id)))
+      .then(changeStateTrue())
+  }
+
+  const changeStateTrue = () => {
+    setShowDeletedState(true)
+    setTimeout(changeStateToFalse, 2000)
+  }
+
+  const changeStateToFalse = () => {
+    setShowDeletedState(false)
   }
 
   return (
     <div>
-      <div>
-        <Calendar onChange={(e)=>changeDate(e)} value={dateValue}/>
-        <Button variant="outline-dark" onClick={showAllEvents}>Show All</Button>
-      </div>
+
+      {showDeletedState ?
+        <span className='text-center'>
+          <Alert variant={"danger"} className="fs-3 sticky-top">Your Event Was Deleted!</Alert>
+        </span>
+        :
+        null
+      }
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {
-          displayedData.map(event => {
+        displayedData.map(event => {
               return (
                 <Col className="m-3" key={event.id}>
                   <Card style={{ width: '18rem' }} bg="light">
@@ -203,6 +219,7 @@ function YourEvents() {
               )//return     
           })//yourEventsData.map
         }
+
       </Row>
     </div>
   )
