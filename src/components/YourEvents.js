@@ -121,7 +121,9 @@ function YourEvents() {
 
                   <ListGroup.Item>
                     <span className="fw-bold">Borough:</span>
-                    <span className="mx-2">{(boroughsData.filter(borough => borough.id === event.borough_id)).map(borough => borough.borough_name)}</span>
+                    <span className="mx-2">
+                      {(boroughsData.filter(borough => borough.id === event.borough_id)).map(borough => borough.borough_name)}
+                    </span>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
@@ -141,7 +143,9 @@ function YourEvents() {
 
                   <ListGroup.Item>
                     <span className="fw-bold">Event Type:</span>
-                    <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
+                    <span className="mx-2">
+                      {(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}
+                    </span>
                   </ListGroup.Item>
 
                   {editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ?
@@ -155,13 +159,19 @@ function YourEvents() {
                     :
                     <ListGroup.Item>
                       <span className="fw-bold">Friends:</span>
-                      <span className="mx-2">{(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}</span>
+                      <span className="mx-2">
+                        {(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}
+                      </span>
                     </ListGroup.Item>
                   }
 
-                  <Button variant="outline-dark" onClick={(e) => handleEdit(e , Object.keys(yourEventsData).find(key => yourEventsData[key] === event) , event.id)} >{editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}</Button>
+                  <Button variant="outline-dark" onClick={(e) => handleEdit(e , Object.keys(yourEventsData).find(key => yourEventsData[key] === event) , event.id)}>
+                    {editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}
+                  </Button>
 
-                  <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>Delete My Event</Button>
+                  <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>
+                    Delete My Event
+                  </Button>
                 </ListGroup>
               </Card>
             </Col>
