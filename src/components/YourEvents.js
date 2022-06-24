@@ -27,7 +27,8 @@ function YourEvents() {
     setEditState(arr)
   }, [yourEventsData])
 
-  let updateFriends = useCallback((id) => {
+  let updateFriends = useCallback((id , index) => {
+    let newArr = [...friendsData]
     fetch(`http://localhost:9292/edit-friends/${id}`, {
       method: 'PATCH',
       headers: {
@@ -39,13 +40,10 @@ function YourEvents() {
       }),
     })
       .then(resp => resp.json())
-      .then(data => {console.log(data)})
-      window.location.reload()
-  }, [editInputState])
-
-
-  // console.log(friendsData)
-  console.log(editState)
+      .then(data => {newArr[index] = data
+        setFriendsData(newArr)
+      }).then(console.log(newArr))
+  }, [editInputState , friendsData])
 
   useEffect(() => {
     fetch('http://localhost:9292/your-events')
@@ -91,7 +89,7 @@ function YourEvents() {
     setEditState(editState => editState.map((item, idx) => idx === indexInt ? !item : item))
 
     if (e.target.textContent === 'Done Editing' && editInputState !== '') {
-      updateFriends(id)
+      updateFriends(id , index)
     }
   }
   
