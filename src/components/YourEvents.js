@@ -156,17 +156,11 @@ function YourEvents() {
         null
       }
       <Row className="justify-content-center mt-2">
-        {/* <Col className="mx-auto"> */}
           <Calendar classname='justify-content-center' onChange={(e) => changeDate(e)} value={dateValue} />
           <span className="text-center">
             <Button variant="outline-dark my-2" onClick={showAllEvents}>Show All</Button>
           </span>
-          {/* <Button variant="outline-dark" onClick={showAllEvents}>Show All</Button> */}
-        {/* </Col> */}
       </Row>
-      {/* <span className="text-center">
-      <Button variant="outline-dark" onClick={showAllEvents}>Show All</Button>
-      </span> */}
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {
           displayedData.map(event => {
