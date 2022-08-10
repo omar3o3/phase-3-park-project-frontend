@@ -1,3 +1,6 @@
+# README [![Awesome](https://cdn.jsdelivr.net/gh/sindresorhus/awesome@d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)]
+This phase we produced a website that fetch information from New York City Park events. This idea is from Omar. The original website is more like an excel sheet providing filtering of the events. We would like to make the information more user-friendly. The feature we intend to devlier is personal events tab that allow user to add the event they participate into their personal event page. At that page, they will be able to create, review, update, and delete the list of friend names.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
