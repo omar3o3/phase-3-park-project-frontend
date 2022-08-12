@@ -1,3 +1,7 @@
+# Awesome README [![Awesome](https://cdn.jsdelivr.net/gh/sindresorhus/awesome@d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)]
+[![webpage_gif_001](pictures/Phase%203%20project%20demo%20NYC%20Park%20API%20website.gif)]
+This phase we started to use Sinatra and React together to give persistent data and data flow between frontend and backend.
+Omar first raised this idea of using data from NYC Park API.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
