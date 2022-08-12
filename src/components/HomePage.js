@@ -20,7 +20,7 @@ function HomePage() {
     fetch('https://data.cityofnewyork.us/resource/tvpp-9vvx.json')
       .then(resp => resp.json())
       .then(data => {
-        setEvents(data.slice(0,20))
+        setEvents(data.slice(0,100))
       })
   }, [])
 
@@ -86,8 +86,8 @@ function HomePage() {
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {events.map(event => {
           return (
-            <Col className="m-3" key={event.event_id}>
-              <Card style={{ width: '18rem' }} bg="light">
+            <Col className="m-4" key={event.event_id}>
+              <Card style={{ width: '18rem'}} bg='primary' text='white'>
 
                 <Card.Body>
                   <Card.Title className="fs-3">{event.event_name}</Card.Title>

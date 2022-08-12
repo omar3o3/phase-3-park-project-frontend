@@ -74,7 +74,7 @@ function YourEvents() {
   // Thie function transfer date to the format we want
   let dateConverter = (data) => {
     let dateEndIdx = data.indexOf("T")
-    let date = data.slice(dateEndIdx-10, dateEndIdx).split('-')
+    let date = data.slice(dateEndIdx - 10, dateEndIdx).split('-')
     let newDateFormat = date.join('/')
     return (newDateFormat)
   }
@@ -91,11 +91,11 @@ function YourEvents() {
   }
 
 
-  const [dateValue, setDateValue] = useState(new Date()); 
+  const [dateValue, setDateValue] = useState(new Date());
   const [showAll, setShowAll] = useState(true)
 
   function changeDate(e) {
-    
+
     setDateValue(e)
     setShowAll(false)
   }
@@ -103,22 +103,22 @@ function YourEvents() {
   // the value from calendar is an object rather than a string
   // Have to use JSON.stringify to change it to string
   // Then use dateConverter to make it same format we had in cards
-  function calendarDateToFormat (dateValue) {
+  function calendarDateToFormat(dateValue) {
     let dateStr = JSON.stringify(dateValue)
     let dateStrFormat = dateConverter(dateStr)
     return dateStrFormat
   }
 
-  function showAllEvents () {
+  function showAllEvents() {
     setShowAll(true)
   }
-  
+
   let displayedData = yourEventsData
   if (!showAll) {
-    displayedData = yourEventsData.filter(event => dateConverter(event.start_date_time) === calendarDateToFormat (dateValue))
+    displayedData = yourEventsData.filter(event => dateConverter(event.start_date_time) === calendarDateToFormat(dateValue))
   }
 
-  const handleEdit = (e, index ,id) => {
+  const handleEdit = (e, index, id) => {
     let indexInt = parseInt(index)
     setEditState(editState => editState.map((item, idx) => idx === indexInt ? !item : item))
 
@@ -155,72 +155,74 @@ function YourEvents() {
         :
         null
       }
-      <div>
-        <Calendar onChange={(e)=>changeDate(e)} value={dateValue}/>
-        <Button variant="outline-dark" onClick={showAllEvents}>Show All</Button>
-      </div>
+      <Row className="justify-content-center mt-2">
+          <Calendar classname='justify-content-center' onChange={(e) => changeDate(e)} value={dateValue} />
+          <span className="text-center">
+            <Button variant="outline-dark my-2" onClick={showAllEvents}>Show All</Button>
+          </span>
+      </Row>
       <Row xs={1} md={2} lg={4} className="justify-content-center">
         {
-        displayedData.map(event => {
-              return (
-                <Col className="m-3" key={event.id}>
-                  <Card style={{ width: '18rem' }} bg="light">
-                    <Card.Body>
-                      <Card.Title className="fs-3">{event.event_name}</Card.Title>
-                      <Card.Text>
-                        <span className="fw-bold">Location:</span>
-                        <span className="mx-2">{event.event_location}</span>
-                      </Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush">
-    
+          displayedData.map(event => {
+            return (
+              <Col className="m-4" key={event.id}>
+                <Card style={{ width: '18rem' }} bg='success' text='white'>
+                  <Card.Body>
+                    <Card.Title className="fs-3">{event.event_name}</Card.Title>
+                    <Card.Text>
+                      <span className="fw-bold">Location:</span>
+                      <span className="mx-2">{event.event_location}</span>
+                    </Card.Text>
+                  </Card.Body>
+                  <ListGroup className="list-group-flush">
+
+                    <ListGroup.Item>
+                      <span className="fw-bold">Borough:</span>
+                      <span className="mx-2">{(boroughsData.filter(borough => borough.id === event.borough_id)).map(borough => borough.borough_name)}</span>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                      <span className="fw-bold">Event Date:</span>
+                      <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                      <span className="fw-bold">Start Time:</span>
+                      <span className="mx-2">{timeConverter(event.start_date_time)}</span>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                      <span className="fw-bold">End Time:</span>
+                      <span className="mx-2">{timeConverter(event.end_date_time)}</span>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                      <span className="fw-bold">Event Type:</span>
+                      <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
+                    </ListGroup.Item>
+
+                    {editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ?
                       <ListGroup.Item>
-                        <span className="fw-bold">Borough:</span>
-                        <span className="mx-2">{(boroughsData.filter(borough => borough.id === event.borough_id)).map(borough => borough.borough_name)}</span>
+                        <InputGroup className="mb-3">
+                          <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setEditInputState(e.target.value)}>
+                            {(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}
+                          </textarea>
+                        </InputGroup>
                       </ListGroup.Item>
-    
+                      :
                       <ListGroup.Item>
-                        <span className="fw-bold">Event Date:</span>
-                        <span className="mx-2">{dateConverter(event.start_date_time)}</span>
+                        <span className="fw-bold">Friends:</span>
+                        <span className="mx-2">{(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}</span>
                       </ListGroup.Item>
-    
-                      <ListGroup.Item>
-                        <span className="fw-bold">Start Time:</span>
-                        <span className="mx-2">{timeConverter(event.start_date_time)}</span>
-                      </ListGroup.Item>
-    
-                      <ListGroup.Item>
-                        <span className="fw-bold">End Time:</span>
-                        <span className="mx-2">{timeConverter(event.end_date_time)}</span>
-                      </ListGroup.Item>
-    
-                      <ListGroup.Item>
-                        <span className="fw-bold">Event Type:</span>
-                        <span className="mx-2">{(eventTypesData.filter(type => type.id === event.event_type_id)).map(type => type.event_type_name)}</span>
-                      </ListGroup.Item>
-    
-                      {editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ?
-                        <ListGroup.Item>
-                          <InputGroup className="mb-3">
-                            <textarea className="form-control" placeholder="Invite Friends" aria-label="With textarea" onChange={(e) => setEditInputState(e.target.value)}>
-                              {(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}
-                            </textarea>
-                          </InputGroup>
-                        </ListGroup.Item>
-                        :
-                        <ListGroup.Item>
-                          <span className="fw-bold">Friends:</span>
-                          <span className="mx-2">{(friendsData.filter(friend => friend.your_event_id === event.id)).map(friend => friend.group_of_names)}</span>
-                        </ListGroup.Item>
-                      }
-    
-                      <Button variant="outline-dark" onClick={(e) => handleEdit(e , Object.keys(yourEventsData).find(key => yourEventsData[key] === event) , event.id)} >{editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}</Button>
-    
-                      <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>Delete My Event</Button>
-                    </ListGroup>
-                  </Card>
-                </Col>
-              )//return     
+                    }
+
+                    <Button variant="outline-dark" onClick={(e) => handleEdit(e, Object.keys(yourEventsData).find(key => yourEventsData[key] === event), event.id)} >{editState[Object.keys(yourEventsData).find(key => yourEventsData[key] === event)] ? "Done Editing" : "Edit Invitation"}</Button>
+
+                    <Button variant="outline-dark" onClick={(e) => handleDelete(e, event.id)}>Delete My Event</Button>
+                  </ListGroup>
+                </Card>
+              </Col>
+            )//return     
           })//yourEventsData.map
         }
 
