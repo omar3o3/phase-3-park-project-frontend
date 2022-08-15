@@ -1,6 +1,15 @@
 # Awesome README [![Awesome](https://cdn.jsdelivr.net/gh/sindresorhus/awesome@d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)]
 [![webpage_gif_001](pictures/Phase%203%20project%20demo%20NYC%20Park%20API%20website.gif)]
-This phase we produced a website that fetch information from New York City Park events. This idea is from Omar. The original website is more like an excel sheet providing filtering of the events. We would like to make the information more user-friendly. The feature we intend to devlier is personal events tab that allow user to add the event they participate into their personal event page. At that page, they will be able to create, review, update, and delete the list of friend names.
+This phase we produced a website that fetch information from New York City Park events. This idea is from Omar. The original website is more like an excel sheet providing filtering of the events. We would like to make the information more user-friendly.  <br />
+The feature we intend to devlier is personal events tab that allow user to add the event they participate into their personal event page. At that page, they will be able to create, review, update, and delete the list of friend names.
+
+To run the website locally  <br />
+You need to fork both frontend and backend from my github. <br />
+To get started, run $ bundle install while inside of directory for backend. <br />
+Then run  $ bundle exec rake db:migrate db:seed <br />
+$ bundle exec rake server
+Run $ npm install and $ npm start inside directory for frontend. <br />
+
 
 # Getting Started with Create React App
 
