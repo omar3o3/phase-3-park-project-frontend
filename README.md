@@ -5,11 +5,24 @@ The feature we intend to devlier is personal events tab that allow user to add t
 
 To run the website locally  <br />
 You need to fork both frontend and backend from my github. <br />
-To get started, run $ bundle install while inside of directory for backend. <br />
-Then run  $ bundle exec rake db:migrate db:seed <br />
-$ bundle exec rake server
-Run $ npm install and $ npm start inside directory for frontend. <br />
+To set up the application, run these commands:
 
+```console
+$ bundle install
+$ bundle exec rake db:migrate db:seed
+```
+
+You can run the app and explore your API in the browser by using the custom Rake
+task:
+
+```console
+$ bundle exec rake server
+```
+Run below commands inside directory for frontend. <br />
+```console
+$ npm install
+$ npm start
+```
 
 # Getting Started with Create React App
 
